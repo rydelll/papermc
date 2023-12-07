@@ -7,13 +7,9 @@ import (
 
 var paperCmd = &cobra.Command{
 	Use:   "paper",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Minecraft Paper server",
+	Long: `Paper is a Minecraft game server based on Spigot, designed to greatly improve
+performance and offer more advanced features and API.`,
 }
 
 func init() {

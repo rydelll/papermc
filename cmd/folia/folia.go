@@ -7,13 +7,11 @@ import (
 
 var foliaCmd = &cobra.Command{
 	Use:   "folia",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Minecraft Folia server",
+	Long: `Folia is a new fork of the Paper Minecraft server that adds regionized
+multithreading to the server. Folia is designed to address the constant
+bottleneck of the server running on a single thread causing performance issues.
+It is not a drop-in replacement for Paper as it breaks most public plugins.`,
 }
 
 func init() {

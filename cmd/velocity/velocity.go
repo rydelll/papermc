@@ -7,13 +7,10 @@ import (
 
 var velocityCmd = &cobra.Command{
 	Use:   "velocity",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Minecraft Velocity proxy",
+	Long: `Velocity is the modern, high-performance proxy for Minecraft. Designed with
+performance and stability in mind, it’s a full alternative to Waterfall with
+its own diverse plugin ecosystem.`,
 }
 
 func init() {

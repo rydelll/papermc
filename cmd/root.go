@@ -8,13 +8,10 @@ import (
 
 var RootCmd = &cobra.Command{
 	Use:   "papermc",
-	Short: "Download, install, and setup software from papermc.io",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "download, install, and setup minecraft papermc products.",
+	Long: `Download, install, and setup Minecraft PaperMC products. 
+PaperMC products include Minecraft servers and proxies. By default the latest
+version will be installed unless. A specific version can be selected as well.`,
 }
 
 func Execute() {
