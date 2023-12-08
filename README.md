@@ -1,25 +1,12 @@
-# What file to download
-- GET https://api.papermc.io/v2/projects/velocity
-- Parse as JSON
-- veloctiy_ver = response.versions[-1]
-- GET https://api.papermc.io/v2/projects/velocity/versions/${velocity_ver}/builds
-- Parse as JSON
-- build_ver = response.builds[-1].build
-- jar = response.builds[-1].downloads.application.name
-- jar_sha = response.builds[-1].downloads.application.sha256
-- GET https://api.papermc.io/v2/projects/velocity/versions/${velocity_ver}/builds/${build_ver}/downloads/${jar}/
-
-
 ## Useful links
+
 https://api.papermc.io/v2/projects/velocity
 https://api.papermc.io/v2/projects/velocity/versions/${velocity_ver}/builds
 https://api.papermc.io/v2/projects/velocity/versions/${velocity_ver}/builds/${build_ver}/
 https://api.papermc.io/v2/projects/velocity/versions/${velocity_ver}/builds/${build_ver}/downloads/${jar}/
 
-
-# ADD GO DOCS
-
 ## start.sh
+
 #!/bin/sh
 
 java -Xms1G -Xmx1G -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:MaxInlineLevel=15 -jar velocity*.jar
@@ -29,8 +16,8 @@ java -Xms${JAVA_MEMORY} -Xmx${JAVA_MEMORY} -XX:+UseG${JAVA_MEMORY}C -XX:G1HeapRe
 chmod +x start.sh
 ./start.sh
 
-
 ## veloctiy.toml
+
 ```toml
 [servers]
 # Configure your servers here. Each key represents the server's name, and the value represents the IP address of the server to connect to.

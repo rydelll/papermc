@@ -15,23 +15,23 @@ type projectVersionResponse struct {
 	Versions      []string `json:"versions"`
 }
 
-func (pvs *projectVersionService) GetLatest(project Project) (string, error) {
-	url := fmt.Sprintf(string(endpointProjectVersion), project)
-	resp, err := pvs.client.httpClient.Get(url)
+func (srv *projectVersionService) GetLatest(project Project) (string, error) {
+	url := fmt.Sprintf(srv.client.baseURL+string(srv.endpoint), project)
+	resp, err := srv.client.httpClient.Get(url)
 	if err != nil {
-		return "", fmt.Errorf("could not reach %s", url)
+		return "", fmt.Errorf("could not reach %s: %w", url, err)
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return "", fmt.Errorf("failed reading response body from %s", url)
+		return "", fmt.Errorf("failed reading response body from %s: %w", url, err)
 	}
 
 	vr := projectVersionResponse{}
 	err = json.Unmarshal(body, &vr)
 	if err != nil {
-		return "", fmt.Errorf("failed parsing response body from %s", url)
+		return "", fmt.Errorf("failed parsing response body from %s: %w", url, err)
 	}
 
 	return vr.Versions[len(vr.Versions)-1], nil

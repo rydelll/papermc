@@ -3,7 +3,7 @@ package folia
 import (
 	"log"
 
-	"github.com/rydelll/papermc/internal/download"
+	"github.com/rydelll/papermc/pkg/papermc"
 	"github.com/spf13/cobra"
 )
 
@@ -23,7 +23,22 @@ func init() {
 func downloadFolia(cmd *cobra.Command, args []string) {
 	version, _ := cmd.Flags().GetString("version")
 
-	err := download.Download(download.Folia, version)
+	c := papermc.NewClient()
+	var err error
+
+	if version == "latest" {
+		version, err = c.ProjectVersion.GetLatest(papermc.Folia)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	info, err := c.ProjectBuild.GetLatest(papermc.Folia, version)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = c.ProjectDownload.Download(papermc.Folia, info)
 	if err != nil {
 		log.Fatal(err)
 	}
