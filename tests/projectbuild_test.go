@@ -1,1 +1,1 @@
-package papermc_test
+package papermc
