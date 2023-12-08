@@ -26,7 +26,7 @@ func (srv *projectDownloadService) Download(project Project, info BuildInfo) err
 
 	_, err = io.Copy(out, resp.Body)
 	if err != nil {
-		return fmt.Errorf("failed to save request body to %s.jar file. %w", project, err)
+		return fmt.Errorf("failed to save request body to %s.jar file: %w", project, err)
 	}
 
 	err = validateChecksum(project, info.checksum)
@@ -40,13 +40,13 @@ func (srv *projectDownloadService) Download(project Project, info BuildInfo) err
 func validateChecksum(project Project, checksum string) error {
 	file, err := os.Open(fmt.Sprintf("./%s.jar", project))
 	if err != nil {
-		return fmt.Errorf("could not read %s.jar file. %w", project, err)
+		return fmt.Errorf("could not read %s.jar file: %w", project, err)
 	}
 	defer file.Close()
 
 	hasher := sha256.New()
 	if _, err := io.Copy(hasher, file); err != nil {
-		return fmt.Errorf("could not create SHA256 hash of %s.jar. %w", project, err)
+		return fmt.Errorf("could not create SHA256 hash of %s.jar: %w", project, err)
 	}
 
 	if hex.EncodeToString(hasher.Sum(nil)) != checksum {
