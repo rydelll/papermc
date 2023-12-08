@@ -49,7 +49,7 @@ func NewClient(opts ...Option) *Client {
 	return c
 }
 
-// SetEndpoint Set the base URL for the PaperMC API.
+// SetBaseURL Set the base URL for the PaperMC API.
 //
 // An example and the default url is: https://api.papermc.io/v2.
 // Change at your own risk, newer and older versions are no supported.
