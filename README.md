@@ -15,7 +15,7 @@ go install github.com/rydelll/papermc
 To use as a library
 
 ```
-go get github.com/rydelll/papermc/pkg/papermc
+go get github.com/rydelll/papermc/client
 ```
 
 ## Options
@@ -47,7 +47,7 @@ import (
 	"flag"
 	"log"
 
-	"github.com/rydelll/papermc/pkg/papermc"
+	"github.com/rydelll/papermc/client"
 )
 
 func main() {
@@ -55,21 +55,22 @@ func main() {
 	var err error
 	flag.StringVar(&version, "version", "latest", "version to download")
 
-	c := papermc.NewClient()
+	c := client.NewClient()
+	var err error
 
 	if version == "latest" {
-		version, err = c.ProjectVersion.GetLatest(papermc.Paper)
+		version, err = c.Paper.LatestVersion()
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
 
-	info, err := c.ProjectBuild.GetLatest(papermc.Paper, version)
+	info, err := c.Paper.LatestBuild(version)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = c.ProjectDownload.Download(papermc.Paper, info)
+	err = c.Paper.Download(info)
 	if err != nil {
 		log.Fatal(err)
 	}

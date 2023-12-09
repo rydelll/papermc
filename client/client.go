@@ -1,4 +1,4 @@
-package papermc
+package client
 
 import (
 	"net/http"
@@ -7,19 +7,24 @@ import (
 
 const paperBaseURL string = "https://api.papermc.io/v2"
 
-type service struct {
-	client   *Client
-	endpoint endpoint
-}
+const (
+	folia     project = "folia"
+	paper     project = "paper"
+	velocity  project = "velocity"
+	waterfall project = "waterfall"
+)
+
+type project string
 
 type Client struct {
 	baseURL    string
 	httpClient *http.Client
 	timeout    time.Duration
 
-	ProjectVersion  *projectVersionService
-	ProjectBuild    *projectBuildService
-	ProjectDownload *projectDownloadService
+	Folia     *projectService
+	Paper     *projectService
+	Velocity  *projectService
+	Waterfall *projectService
 }
 
 // Set an option on the client.
@@ -42,9 +47,10 @@ func NewClient(opts ...Option) *Client {
 		Timeout: c.timeout,
 	}
 
-	c.ProjectVersion = &projectVersionService{client: c, endpoint: endpointProjectVersion}
-	c.ProjectBuild = &projectBuildService{client: c, endpoint: endpointProjectBuild}
-	c.ProjectDownload = &projectDownloadService{client: c, endpoint: endpointProjectDownload}
+	c.Folia = &projectService{client: c, project: folia}
+	c.Paper = &projectService{client: c, project: paper}
+	c.Velocity = &projectService{client: c, project: velocity}
+	c.Waterfall = &projectService{client: c, project: waterfall}
 
 	return c
 }
