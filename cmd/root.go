@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"log"
+
 	"github.com/spf13/cobra"
 )
 
@@ -17,7 +19,7 @@ version will be installed unless. A specific version can be selected as well.`,
 func Execute() int {
 	err := rootCmd.Execute()
 	if err != nil {
-		return 1
+		log.Fatalln(err)
 	}
 
 	return 0
