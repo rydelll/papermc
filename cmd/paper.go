@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"log"
-
 	"github.com/rydelll/papermc/client"
 	"github.com/spf13/cobra"
 )
@@ -19,35 +17,33 @@ var paperDownloadCmd = &cobra.Command{
 	Short: "Download a Minecraft Paper server",
 	Long: `Download a Minecraft Paper server. By default the latest version will be
 installed unless. A specific version can be selected as well.`,
-	Run: downloadPaper,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		c := client.NewClient()
+		var err error
+
+		if version == "latest" {
+			version, err = c.Paper.LatestVersion()
+			if err != nil {
+				return err
+			}
+		}
+
+		info, err := c.Paper.LatestBuild(version)
+		if err != nil {
+			return err
+		}
+
+		err = c.Paper.Download(info)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	},
 }
 
 func init() {
-	RootCmd.AddCommand(paperCmd)
+	rootCmd.AddCommand(paperCmd)
 	paperCmd.AddCommand(paperDownloadCmd)
-	paperDownloadCmd.Flags().StringP("version", "v", "latest", "version to download")
-}
-
-func downloadPaper(cmd *cobra.Command, args []string) {
-	version, _ := cmd.Flags().GetString("version")
-
-	c := client.NewClient()
-	var err error
-
-	if version == "latest" {
-		version, err = c.Paper.LatestVersion()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
-
-	info, err := c.Paper.LatestBuild(version)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = c.Paper.Download(info)
-	if err != nil {
-		log.Fatal(err)
-	}
+	paperDownloadCmd.Flags().StringVarP(&version, "version", "v", "latest", "version to download")
 }

@@ -1,22 +1,24 @@
 package cmd
 
 import (
-	"os"
-
 	"github.com/spf13/cobra"
 )
 
-var RootCmd = &cobra.Command{
+var version string
+
+var rootCmd = &cobra.Command{
 	Use:   "papermc",
-	Short: "download, install, and setup Minecraft PaperMC products.",
+	Short: "Download, install, and setup Minecraft PaperMC products.",
 	Long: `Download, install, and setup Minecraft PaperMC products. 
 PaperMC products include Minecraft servers and proxies. By default the latest
 version will be installed unless. A specific version can be selected as well.`,
 }
 
-func Execute() {
-	err := RootCmd.Execute()
+func Execute() int {
+	err := rootCmd.Execute()
 	if err != nil {
-		os.Exit(1)
+		return 1
 	}
+
+	return 0
 }

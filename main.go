@@ -1,7 +1,12 @@
 package main
 
-import "github.com/rydelll/papermc/cmd"
+import (
+	"os"
+
+	"github.com/rydelll/papermc/cmd"
+)
 
 func main() {
-	cmd.Execute()
+	ret := cmd.Execute()
+	os.Exit(ret)
 }

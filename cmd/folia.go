@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"log"
-
 	"github.com/rydelll/papermc/client"
 	"github.com/spf13/cobra"
 )
@@ -21,35 +19,33 @@ var foliaDownloadCmd = &cobra.Command{
 	Short: "Download a Minecraft Folia server",
 	Long: `Download a Minecraft Folia server. By default the latest version will be
 installed unless. A specific version can be selected as well.`,
-	Run: downloadFolia,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		c := client.NewClient()
+		var err error
+
+		if version == "latest" {
+			version, err = c.Folia.LatestVersion()
+			if err != nil {
+				return err
+			}
+		}
+
+		info, err := c.Folia.LatestBuild(version)
+		if err != nil {
+			return err
+		}
+
+		err = c.Folia.Download(info)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	},
 }
 
 func init() {
-	RootCmd.AddCommand(foliaCmd)
+	rootCmd.AddCommand(foliaCmd)
 	foliaCmd.AddCommand(foliaDownloadCmd)
-	foliaDownloadCmd.Flags().StringP("version", "v", "latest", "version to download")
-}
-
-func downloadFolia(cmd *cobra.Command, args []string) {
-	version, _ := cmd.Flags().GetString("version")
-
-	c := client.NewClient()
-	var err error
-
-	if version == "latest" {
-		version, err = c.Folia.LatestVersion()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
-
-	info, err := c.Folia.LatestBuild(version)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = c.Folia.Download(info)
-	if err != nil {
-		log.Fatal(err)
-	}
+	foliaDownloadCmd.Flags().StringVarP(&version, "version", "v", "latest", "version to download")
 }
