@@ -1,73 +1,38 @@
 package client
 
 import (
+	"log/slog"
 	"net/http"
+	"os"
 	"time"
 )
 
-const paperBaseURL string = "https://api.papermc.io/v2"
-
 const (
-	folia     project = "folia"
-	paper     project = "paper"
-	velocity  project = "velocity"
-	waterfall project = "waterfall"
+	defaultBaseURL string        = "https://api.papermc.io/v2"
+	defaultTimeout time.Duration = time.Second * 30
 )
 
-type project string
-
 type Client struct {
-	baseURL    string
-	httpClient *http.Client
-	timeout    time.Duration
-
-	Folia     *projectService
-	Paper     *projectService
-	Velocity  *projectService
-	Waterfall *projectService
+	baseURL string
+	client  *http.Client
+	logger  *slog.Logger
 }
 
-// Set an option on the client.
-type Option func(*Client)
-
-// Create a new PaperMC client.
+// New PaperMC client.
 //
-// Options can be changed via Set methods passed in as paramaters.
-func NewClient(opts ...Option) *Client {
+// Options can be changed via options methods passed in as paramaters.
+func New(opts ...Option) *Client {
 	c := &Client{
-		baseURL: paperBaseURL,
-		timeout: time.Second * 30,
+		baseURL: defaultBaseURL,
+		client:  &http.Client{Timeout: defaultTimeout},
+		logger:  slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})),
 	}
 
 	for _, opt := range opts {
 		opt(c)
 	}
 
-	c.httpClient = &http.Client{
-		Timeout: c.timeout,
-	}
-
-	c.Folia = &projectService{client: c, project: folia}
-	c.Paper = &projectService{client: c, project: paper}
-	c.Velocity = &projectService{client: c, project: velocity}
-	c.Waterfall = &projectService{client: c, project: waterfall}
+	// Do stuff here related to the services on the client
 
 	return c
-}
-
-// SetBaseURL Set the base URL for the PaperMC API.
-//
-// An example and the default url is: https://api.papermc.io/v2.
-// Change at your own risk, newer and older versions are no supported.
-func SetBaseURL(url string) Option {
-	return func(c *Client) {
-		c.baseURL = url
-	}
-}
-
-// SetTimeout Set the request timeout for the PaperMC API.
-func SetTimeout(timeout time.Duration) Option {
-	return func(c *Client) {
-		c.timeout = timeout
-	}
 }

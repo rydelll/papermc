@@ -1,9 +1,6 @@
 package cmd
 
 import (
-	"log"
-
-	"github.com/rydelll/papermc/client"
 	"github.com/spf13/cobra"
 )
 
@@ -21,30 +18,8 @@ var velocityDownloadCmd = &cobra.Command{
 	Long: `Download a Minecraft Velocity proxy. By default the latest version will be
 installed unless. A specific version can be selected as well.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		c := client.NewClient()
-		var err error
-
-		if version == "latest" {
-			version, err = c.Velocity.LatestVersion()
-			if err != nil {
-				log.Fatal(err)
-			}
-		}
-
-		info, err := c.Velocity.LatestBuild(version)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		err = c.Velocity.Download(info)
-		if err != nil {
-			log.Fatal(err)
-		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(velocityCmd)
-	velocityCmd.AddCommand(velocityDownloadCmd)
-	velocityDownloadCmd.Flags().StringVarP(&version, "version", "v", "latest", "version to download")
 }

@@ -25,7 +25,7 @@ go get github.com/rydelll/papermc/client
 Set the PaperMC endpoint, only version 2 of the PaperMC API is currently supported so use at your own risk.
 
 ```go
-SetBaseURL(string)
+WithBaseURL(string)
 ```
 
 ### SetTimeout
@@ -33,12 +33,12 @@ SetBaseURL(string)
 Set a timeout duration for all HTTP requests, the default is 30 seconds.
 
 ```go
-SetTimeout(time.Duration)
+WithTimeout(time.Duration)
 ```
 
 ## Usage
 
-An example use of the library is below.
+An example use of the library is given below.
 
 ```go
 package main
@@ -51,28 +51,6 @@ import (
 )
 
 func main() {
-	var version string
-	var err error
-	flag.StringVar(&version, "version", "latest", "version to download")
-
-	c := client.NewClient()
-	var err error
-
-	if version == "latest" {
-		version, err = c.Paper.LatestVersion()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
-
-	info, err := c.Paper.LatestBuild(version)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = c.Paper.Download(info)
-	if err != nil {
-		log.Fatal(err)
-	}
+	
 }
 ```

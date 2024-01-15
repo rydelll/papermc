@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"github.com/rydelll/papermc/client"
 	"github.com/spf13/cobra"
 )
 
@@ -17,33 +16,10 @@ var paperDownloadCmd = &cobra.Command{
 	Short: "Download a Minecraft Paper server",
 	Long: `Download a Minecraft Paper server. By default the latest version will be
 installed unless. A specific version can be selected as well.`,
-	RunE: func(cmd *cobra.Command, args []string) error {
-		c := client.NewClient()
-		var err error
+	Run: func(cmd *cobra.Command, args []string) {
 
-		if version == "latest" {
-			version, err = c.Paper.LatestVersion()
-			if err != nil {
-				return err
-			}
-		}
-
-		info, err := c.Paper.LatestBuild(version)
-		if err != nil {
-			return err
-		}
-
-		err = c.Paper.Download(info)
-		if err != nil {
-			return err
-		}
-
-		return nil
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(paperCmd)
-	paperCmd.AddCommand(paperDownloadCmd)
-	paperDownloadCmd.Flags().StringVarP(&version, "version", "v", "latest", "version to download")
 }
