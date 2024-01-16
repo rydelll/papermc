@@ -19,9 +19,10 @@ var foliaDownloadCmd = &cobra.Command{
 	Long: `Download a Minecraft Folia server. By default the latest version will be
 installed unless. A specific version can be selected as well.`,
 	Run: func(cmd *cobra.Command, args []string) {
-
+		// TODO
 	},
 }
 
 func init() {
+	// TODO
 }

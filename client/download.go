@@ -11,6 +11,7 @@ import (
 // URL format: /projects/{project}/versions/{version}/builds/{build}/downloads/{jar}
 const downloadEndpoint string = "/projects/%s/versions/%s/builds/%d/downloads/%s"
 
+// TODO
 func (s *ProjectService) Download(build Build) error {
 	out, err := os.Create(fmt.Sprintf("./%s.jar", s.project))
 	if err != nil {

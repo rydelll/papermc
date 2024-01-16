@@ -12,8 +12,10 @@ const (
 	Waterfall Project = "waterfall"
 )
 
+// TODO
 type Project string
 
+// TODO
 type ProjectService struct {
 	baseURL string
 	client  *http.Client
@@ -21,6 +23,7 @@ type ProjectService struct {
 	project Project
 }
 
+// TODO
 func NewProjectService(c *Client, project Project) *ProjectService {
 	return &ProjectService{
 		baseURL: c.baseURL,

@@ -16,10 +16,12 @@ type versionResponse struct {
 	Versions      []string `json:"versions"`
 }
 
+// TODO
 func (s *ProjectService) GetVersion(ver string) (string, error) {
 	return "", nil
 }
 
+// TODO
 func (s *ProjectService) GetLatestVersion() (string, error) {
 	url := fmt.Sprintf(s.baseURL+versionEndpoint, s.project)
 	resp, err := s.client.Get(url)
@@ -42,6 +44,7 @@ func (s *ProjectService) GetLatestVersion() (string, error) {
 	return vr.Versions[len(vr.Versions)-1], nil
 }
 
+// TODO
 func (s *ProjectService) ListVersions() ([]string, error) {
 	return nil, nil
 }

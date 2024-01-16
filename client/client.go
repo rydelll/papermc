@@ -12,6 +12,7 @@ const (
 	defaultTimeout time.Duration = time.Second * 30
 )
 
+// TODO
 type Client struct {
 	baseURL string
 	client  *http.Client

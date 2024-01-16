@@ -9,6 +9,7 @@ import (
 // URL format: /projects/{project}/versions/{version}/builds
 const buildEndpoint string = "/projects/%s/versions/%s/builds"
 
+// TODO
 type Build struct {
 	Version  string
 	Build    int
@@ -47,10 +48,12 @@ type application struct {
 	SHA256 string `json:"sha256"`
 }
 
+// TODO
 func (s *ProjectService) GetBuild(ver string, build int) (Build, error) {
 	return Build{}, nil
 }
 
+// TODO
 func (s *ProjectService) GetLatestBuild(ver string) (Build, error) {
 	url := fmt.Sprintf(s.baseURL+buildEndpoint, s.project, ver)
 	resp, err := s.client.Get(url)
@@ -79,6 +82,7 @@ func (s *ProjectService) GetLatestBuild(ver string) (Build, error) {
 		nil
 }
 
+// TODO
 func (s *ProjectService) ListBuilds(ver string) ([]Build, error) {
 	return nil, nil
 }
