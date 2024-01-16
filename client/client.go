@@ -16,6 +16,11 @@ type Client struct {
 	baseURL string
 	client  *http.Client
 	logger  *slog.Logger
+
+	Folia     *ProjectService
+	Paper     *ProjectService
+	Velocity  *ProjectService
+	Waterfall *ProjectService
 }
 
 // New PaperMC client.
@@ -32,7 +37,10 @@ func New(opts ...Option) *Client {
 		opt(c)
 	}
 
-	// Do stuff here related to the services on the client
+	c.Folia = NewProjectService(c, Folia)
+	c.Paper = NewProjectService(c, Paper)
+	c.Velocity = NewProjectService(c, Velocity)
+	c.Waterfall = NewProjectService(c, Waterfall)
 
 	return c
 }

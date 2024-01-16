@@ -1,37 +1,84 @@
 package client
 
-import "net/http"
+import (
+	"encoding/json"
+	"fmt"
+	"io"
+)
 
 // URL format: /projects/{project}/versions/{version}/builds
-const endpointProjectBuild buildEndpoint = "/projects/%s/versions/%s/builds"
+const buildEndpoint string = "/projects/%s/versions/%s/builds"
 
-type buildEndpoint string
-
-type BuildService struct {
-	client   *http.Client
-	project  Project
-	endpoint buildEndpoint
+type Build struct {
+	Version  string
+	Build    int
+	Jar      string
+	Checksum string
 }
 
-func NewBuildService(client *http.Client, project Project) *BuildService {
-	return &BuildService{
-		client:   client,
-		project:  project,
-		endpoint: endpointProjectBuild,
+type buildResponse struct {
+	ProjectId   string  `json:"project_id"`
+	ProjectName string  `json:"project_name"`
+	Version     string  `json:"version"`
+	Builds      []build `json:"builds"`
+}
+
+type build struct {
+	Build    int      `json:"build"`
+	Time     string   `json:"time"`
+	Channel  string   `json:"channel"`
+	Promoted bool     `json:"promoted"`
+	Changes  []change `json:"changes"`
+	Download download `json:"downloads"`
+}
+
+type change struct {
+	Commit  string `json:"commit"`
+	Summary string `json:"summary"`
+	Message string `json:"message"`
+}
+
+type download struct {
+	Application application `json:"application"`
+}
+
+type application struct {
+	Name   string `json:"name"`
+	SHA256 string `json:"sha256"`
+}
+
+func (s *ProjectService) GetBuild(ver string, build int) (Build, error) {
+	return Build{}, nil
+}
+
+func (s *ProjectService) GetLatestBuild(ver string) (Build, error) {
+	url := fmt.Sprintf(s.baseURL+buildEndpoint, s.project, ver)
+	resp, err := s.client.Get(url)
+	if err != nil {
+		return Build{}, fmt.Errorf("could not reach %s: %w", url, err)
 	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return Build{}, fmt.Errorf("failed reading response body from %s: %w", url, err)
+	}
+
+	br := buildResponse{}
+	err = json.Unmarshal(body, &br)
+	if err != nil {
+		return Build{}, fmt.Errorf("failed parsing response body from %s: %w", url, err)
+	}
+
+	return Build{
+			Version:  br.Version,
+			Build:    br.Builds[len(br.Builds)-1].Build,
+			Jar:      br.Builds[len(br.Builds)-1].Download.Application.Name,
+			Checksum: br.Builds[len(br.Builds)-1].Download.Application.SHA256,
+		},
+		nil
 }
 
-func (s *BuildService) Get(ver string) (string, error) {
-	return "specific build", nil
-}
-
-func (s *BuildService) GetLatest() (string, error) {
-	return "latest build", nil
-}
-
-func (s *BuildService) List() ([]string, error) {
-	vers := make([]string, 2)
-	vers[0] = "first build"
-	vers[1] = "second build"
-	return vers, nil
+func (s *ProjectService) ListBuilds(ver string) ([]Build, error) {
+	return nil, nil
 }

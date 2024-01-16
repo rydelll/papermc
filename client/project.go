@@ -1,6 +1,9 @@
 package client
 
-import "net/http"
+import (
+	"log/slog"
+	"net/http"
+)
 
 const (
 	Folia     Project = "folia"
@@ -12,15 +15,17 @@ const (
 type Project string
 
 type ProjectService struct {
-	Version  *VersionService
-	Build    *BuildService
-	Download *DownloadService
+	baseURL string
+	client  *http.Client
+	logger  *slog.Logger
+	project Project
 }
 
-func NewProjectService(client *http.Client, project Project) *ProjectService {
+func NewProjectService(c *Client, project Project) *ProjectService {
 	return &ProjectService{
-		Version:  NewVersionService(client, project),
-		Build:    NewBuildService(client, project),
-		Download: NewDownloadService(client, project),
+		baseURL: c.baseURL,
+		client:  c.client,
+		logger:  c.logger,
+		project: project,
 	}
 }
