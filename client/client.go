@@ -1,9 +1,7 @@
 package client
 
 import (
-	"log/slog"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -16,7 +14,6 @@ const (
 type Client struct {
 	baseURL string
 	client  *http.Client
-	logger  *slog.Logger
 
 	Folia     *ProjectService
 	Paper     *ProjectService
@@ -31,7 +28,6 @@ func New(opts ...Option) *Client {
 	c := &Client{
 		baseURL: defaultBaseURL,
 		client:  &http.Client{Timeout: defaultTimeout},
-		logger:  slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})),
 	}
 
 	for _, opt := range opts {

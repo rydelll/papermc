@@ -1,7 +1,6 @@
 package client
 
 import (
-	"log/slog"
 	"net/http"
 )
 
@@ -19,7 +18,6 @@ type Project string
 type ProjectService struct {
 	baseURL string
 	client  *http.Client
-	logger  *slog.Logger
 	project Project
 }
 
@@ -28,7 +26,6 @@ func NewProjectService(c *Client, project Project) *ProjectService {
 	return &ProjectService{
 		baseURL: c.baseURL,
 		client:  c.client,
-		logger:  c.logger,
 		project: project,
 	}
 }

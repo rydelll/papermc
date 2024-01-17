@@ -1,7 +1,6 @@
 package client
 
 import (
-	"log/slog"
 	"time"
 )
 
@@ -14,13 +13,6 @@ type Option func(*Client)
 func WithBaseURL(url string) Option {
 	return func(c *Client) {
 		c.baseURL = url
-	}
-}
-
-// WithLogger sets a custom logger for log messages.
-func WithLogger(logger *slog.Logger) Option {
-	return func(c *Client) {
-		c.logger = logger
 	}
 }
 
