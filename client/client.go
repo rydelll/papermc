@@ -1,4 +1,4 @@
-package papermc
+package client
 
 import (
 	"net/http"
@@ -42,7 +42,7 @@ type Client struct {
 // New PaperMC client.
 //
 // Options can be changed via option methods passed in as paramaters.
-func NewClient(opts ...Option) *Client {
+func New(opts ...Option) *Client {
 	c := &Client{
 		baseURL: defaultBaseURL,
 		client:  &http.Client{Timeout: defaultTimeout},

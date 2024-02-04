@@ -1,4 +1,4 @@
-package papermc
+package client
 
 import (
 	"time"

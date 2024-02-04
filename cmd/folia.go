@@ -1,7 +1,7 @@
-package cli
+package cmd
 
 import (
-	"github.com/rydelll/papermc"
+	"github.com/rydelll/papermc/client"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +21,7 @@ var foliaDownloadCmd = &cobra.Command{
 downloaded if not specified.`,
 	Args: cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		c := papermc.NewClient()
+		c := client.New()
 		var err error
 
 		if version == "" {
@@ -31,7 +31,7 @@ downloaded if not specified.`,
 			}
 		}
 
-		var info papermc.ProjectInfo
+		var info client.ProjectInfo
 		if build == 0 {
 			info, err = c.Folia.Build.GetLatest(version)
 		} else {

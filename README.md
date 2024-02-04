@@ -9,13 +9,13 @@ A PaperMC API wrapper for Golang.
 To use the CLI tool
 
 ```
-go install github.com/rydelll/papermc/cmd
+go install github.com/rydelll/papermc@latest
 ```
 
 To use as a library
 
 ```
-go get github.com/rydelll/papermc
+go get github.com/rydelll/papermc/client
 ```
 
 ## Options
@@ -46,11 +46,11 @@ package main
 import (
 	"log"
 
-	"github.com/rydelll/papermc"
+	"github.com/rydelll/papermc/client"
 )
 
 func main() {
-	c := papermc.NewClient(papermc.WithTimeout(time.Second * 10))
+	c := client.New(client.WithTimeout(time.Second * 10))
 	
 	ver, err := c.Paper.Version.GetLatest()
 	if err != nil {

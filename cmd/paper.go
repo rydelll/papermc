@@ -1,7 +1,7 @@
-package cli
+package cmd
 
 import (
-	"github.com/rydelll/papermc"
+	"github.com/rydelll/papermc/client"
 	"github.com/spf13/cobra"
 )
 
@@ -18,7 +18,7 @@ var paperDownloadCmd = &cobra.Command{
 	Long: `Download a Minecraft Paper server. The latest version will be
 downloaded if not specified.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		c := papermc.NewClient()
+		c := client.New()
 		var err error
 
 		if version == "" {
@@ -28,7 +28,7 @@ downloaded if not specified.`,
 			}
 		}
 
-		var info papermc.ProjectInfo
+		var info client.ProjectInfo
 		if build == 0 {
 			info, err = c.Paper.Build.GetLatest(version)
 		} else {

@@ -1,4 +1,4 @@
-package papermc
+package client
 
 import (
 	"crypto/sha256"
@@ -29,12 +29,6 @@ func NewDownloadService(project Project, baseURL string, client *http.Client) *D
 
 // Download a PaperMC executable JAR for a given version, build, and JAR name.
 func (s *DownloadService) Download(ver string, build int, JAR string) error {
-	out, err := os.Create(fmt.Sprintf("%s.jar", s.project))
-	if err != nil {
-		return fmt.Errorf("create JAR: %w", err)
-	}
-	defer out.Close()
-
 	url := fmt.Sprintf(s.baseURL+downloadEndpoint, s.project, ver, build, JAR)
 	resp, err := s.client.Get(url)
 	if err != nil {
@@ -46,8 +40,17 @@ func (s *DownloadService) Download(ver string, build int, JAR string) error {
 		return fmt.Errorf("response: HTTP status code %d", resp.StatusCode)
 	}
 
+	filename := fmt.Sprintf("%s.jar", s.project)
+	out, err := os.Create(filename)
+	if err != nil {
+		_ = os.Remove(filename)
+		return fmt.Errorf("create JAR: %w", err)
+	}
+	defer out.Close()
+
 	_, err = io.Copy(out, resp.Body)
 	if err != nil {
+		_ = os.Remove(filename)
 		return fmt.Errorf("save JAR: %w", err)
 	}
 

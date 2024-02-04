@@ -1,4 +1,4 @@
-package papermc
+package client
 
 const (
 	Folia      Project = "folia"
