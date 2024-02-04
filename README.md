@@ -9,20 +9,20 @@ A PaperMC API wrapper for Golang.
 To use the CLI tool
 
 ```
-go install github.com/rydelll/papermc
+go install github.com/rydelll/papermc/cmd
 ```
 
 To use as a library
 
 ```
-go get github.com/rydelll/papermc/client
+go get github.com/rydelll/papermc
 ```
 
 ## Options
 
 ### SetBaseURL
 
-Set the PaperMC endpoint, only version 2 of the PaperMC API is currently supported so use at your own risk.
+Set the PaperMC endpoint, only version 2 of the PaperMC API is currently supported; use at your own risk.
 
 ```go
 WithBaseURL(string)
@@ -44,13 +44,32 @@ An example use of the library is given below.
 package main
 
 import (
-	"flag"
 	"log"
 
-	"github.com/rydelll/papermc/client"
+	"github.com/rydelll/papermc"
 )
 
 func main() {
+	c := papermc.NewClient(papermc.WithTimeout(time.Second * 10))
 	
+	ver, err := c.Paper.Version.GetLatest()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	info, err := c.Paper.Build.GetLatest(ver)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err := c.Paper.JAR.Download(info.Version, info.Build, info.JAR)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err := c.Paper.JAR.ValidateChecksum(info.Checksum)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 ```
