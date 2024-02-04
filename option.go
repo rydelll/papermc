@@ -1,4 +1,4 @@
-package client
+package papermc
 
 import (
 	"time"
@@ -17,6 +17,8 @@ func WithBaseURL(url string) Option {
 }
 
 // WithTimeout modifies request timeout for the PaperMC API.
+//
+// The default request timeout is 30 seconds.
 func WithTimeout(timeout time.Duration) Option {
 	return func(c *Client) {
 		c.client.Timeout = timeout
