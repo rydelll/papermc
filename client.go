@@ -26,7 +26,7 @@ type Client struct {
 	Paper *ProjectService
 
 	// Travertine is a fork of Waterfall with additional protocols. Travertine
-	// aims to support older client versions then Waterfall.
+	// aims to support older client versions than Waterfall.
 	Travertine *ProjectService
 
 	// Velocity is the modern, high-performance proxy for Minecraft. Designed

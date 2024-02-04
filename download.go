@@ -42,6 +42,10 @@ func (s *DownloadService) Download(ver string, build int, JAR string) error {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("response: HTTP status code %d", resp.StatusCode)
+	}
+
 	_, err = io.Copy(out, resp.Body)
 	if err != nil {
 		return fmt.Errorf("save JAR: %w", err)

@@ -59,12 +59,16 @@ type buildInfoResponse struct {
 
 // Get project information for a build of a PaperMC project version.
 func (s *BuildService) Get(ver string, build int) (ProjectInfo, error) {
-	url := fmt.Sprintf(s.baseURL+buildInfoEndpoint, s.project)
+	url := fmt.Sprintf(s.baseURL+buildInfoEndpoint, s.project, ver, build)
 	resp, err := s.client.Get(url)
 	if err != nil {
 		return ProjectInfo{}, fmt.Errorf("fetch data: %w", err)
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return ProjectInfo{}, fmt.Errorf("response: HTTP status code %d", resp.StatusCode)
+	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
@@ -115,6 +119,10 @@ func (s *BuildService) List(ver string) ([]int, error) {
 		return nil, fmt.Errorf("fetch data: %w", err)
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("response: HTTP status code %d", resp.StatusCode)
+	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {

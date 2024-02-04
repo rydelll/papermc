@@ -2,7 +2,7 @@ package papermc
 
 const (
 	Folia      Project = "folia"
-	Paper      Project = "folia"
+	Paper      Project = "paper"
 	Travertine Project = "travertine"
 	Velocity   Project = "velocity"
 	Waterfall  Project = "waterfall"
