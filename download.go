@@ -1,4 +1,4 @@
-package client
+package papermc
 
 import (
 	"crypto/sha256"

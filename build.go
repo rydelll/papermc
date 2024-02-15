@@ -1,4 +1,4 @@
-package client
+package papermc
 
 import (
 	"encoding/json"

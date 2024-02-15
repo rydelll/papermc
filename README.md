@@ -6,16 +6,8 @@ A PaperMC API wrapper for Golang.
 
 ## Installation
 
-To use the CLI tool
-
 ```
-go install github.com/rydelll/papermc@latest
-```
-
-To use as a library
-
-```
-go get github.com/rydelll/papermc/client
+go get github.com/rydelll/papermc
 ```
 
 ## Options
@@ -46,11 +38,11 @@ package main
 import (
 	"log"
 
-	"github.com/rydelll/papermc/client"
+	"github.com/rydelll/papermc"
 )
 
 func main() {
-	c := client.New(client.WithTimeout(time.Second * 10))
+	c := papermc.New(papermc.WithTimeout(time.Second * 10))
 	
 	ver, err := c.Paper.Version.GetLatest()
 	if err != nil {
